@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Monkey Ladder</string>
+    <string name="title_activity_main">title_activity_main</string>
+    <string name="levelHeaderText">Level</string>
+    <string name="level">1</string>
+    <string name="scoreHeaderText">SCORE</string>
+    <string name="score">0</string>
+</resources>
