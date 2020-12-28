@@ -1,5 +1,7 @@
 package com.monkeyladder.ui.mainscreen;
 
+import com.monkeyladder.game.GameState;
+
 import java.util.List;
 
 interface MainActivityViewContract {
@@ -17,4 +19,8 @@ interface MainActivityViewContract {
     void displayUserSelectionIncorrectFeedback( );
 
     void updateUserInputFeedBackImage( );
+
+    void updateGameStateInUI( GameState gameState );
+
+    void setReadyToTakeUserInput( boolean isReady );
 }

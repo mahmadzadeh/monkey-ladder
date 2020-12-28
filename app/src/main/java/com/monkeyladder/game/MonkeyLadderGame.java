@@ -1,5 +1,7 @@
 package com.monkeyladder.game;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,20 +10,14 @@ import static com.monkeyladder.game.util.random.RandomBoardGenerator.nextTrialFo
 public class MonkeyLadderGame {
 
     private static final BoardSize DEFAULT_BOARD_SIZE = BoardSize.FourByFive;
-
-    private final Board board;
-
-    private final GameLevel currentLevel;
-
-    private List<Location> userSelectedLocations;
-
     private final GameState gameState;
+    private Board board;
+    private List<Location> userSelectedLocations;
 
     public MonkeyLadderGame( Board board, GameLevel level ) {
         this.board = board;
-        currentLevel = level;
-        userSelectedLocations = new ArrayList<>();
-        gameState = new GameState( PlayerLives.Default, level, 0 );
+        this.userSelectedLocations = new ArrayList<>();
+        this.gameState = new GameState( PlayerLives.Default, level, 0 );
     }
 
     public MonkeyLadderGame( GameLevel level ) {
@@ -42,7 +38,7 @@ public class MonkeyLadderGame {
     }
 
     public boolean hasEnoughUserSelectedInput( ) {
-        return userSelectedLocations.size() == currentLevel.cellCount();
+        return userSelectedLocations.size() == gameState.getLevel().cellCount();
     }
 
     public UserInputEvaluationResult evaluate( ) {
@@ -62,12 +58,20 @@ public class MonkeyLadderGame {
 
     public GameState updateGameState( UserInputEvaluationResult result ) {
 
-        gameState.updateGameStateBasedOnResult(result);
+        Log.e( "MOnekyLadderGame " , "aAbout to update game state " + gameState );
+
+        gameState.updateGameStateBasedOnResult( result );
+
+        Log.e( "MOnekyLadderGame " , "new Game state " + gameState );
 
         return gameState;
     }
 
-    public GameLevel getCurrentLevel( ) {
-        return currentLevel;
+    public void reset( ) {
+        Log.e( "MonekyLadderGame", "really resetting the game. Level "+ gameState.getLevel() );
+
+        this.board = new Board( this.DEFAULT_BOARD_SIZE, nextTrialForLevel( gameState.getLevel() ) );
+
+        resetUserSelectedLocations();
     }
 }

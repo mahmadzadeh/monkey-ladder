@@ -534,11 +534,11 @@
                 android:layout_weight="1.35"
                 android:fontFamily="monospace"
                 android:gravity="center"
-                
+                android:text="@string/scoreHeaderText"
                 android:textColor="#B0C7E6" />
 
             <TextView
-                android:id="@+id/textViewScore"
+                android:id="@+id/score"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2.7"

@@ -1,6 +1,7 @@
 package com.monkeyladder.ui.mainscreen;
 
 import com.monkeyladder.game.Cell;
+import com.monkeyladder.game.GameState;
 import com.monkeyladder.game.Location;
 import com.monkeyladder.game.MonkeyLadderGame;
 import com.monkeyladder.game.UserInputEvaluationResult;
@@ -37,8 +38,13 @@ class MainScreenModel implements MainActivityModelContract {
     }
 
     @Override
-    public void updateGameState( UserInputEvaluationResult result ) {
-        monkeyLadderGame.updateGameState(result);
+    public GameState updateGameState( UserInputEvaluationResult result ) {
+        return monkeyLadderGame.updateGameState(result);
+    }
+
+    @Override
+    public void resetGame( ) {
+        monkeyLadderGame.reset();
     }
 
     private List<LocationData> convert( List<Cell> setCells ) {

@@ -12,11 +12,11 @@ public interface MainActivityPresenterContract {
 
     List<LocationData> getCurrentBoard( );
 
-    void setDisplayGameBoardProgress( String formatTime );
+    void setDisplayGameBoardProgress( int formatTime );
 
     void startDisplayTimer( );
 
-    void endDisplayTimer( );
+    void onDisplayTimerFinish( );
 
     void readyForDisplay( );
 }

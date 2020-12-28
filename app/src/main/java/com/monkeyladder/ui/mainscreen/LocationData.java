@@ -19,4 +19,12 @@ class LocationData {
     public int getData( ) {
         return data;
     }
+
+    @Override
+    public String toString( ) {
+        return "LocationData{" +
+                "location=" + location +
+                ", data=" + data +
+                '}';
+    }
 }

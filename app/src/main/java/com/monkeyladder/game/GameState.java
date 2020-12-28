@@ -1,6 +1,6 @@
 package com.monkeyladder.game;
 
-class GameState {
+public class GameState {
 
     private PlayerLives lives;
     private GameLevel level;
@@ -35,5 +35,14 @@ class GameState {
             score -= level.cellCount();
             level = level.previousLevelDown().orElse( GameLevel.LevelOne );
         }
+    }
+
+    @Override
+    public String toString( ) {
+        return "GameState{" +
+                "lives=" + lives +
+                ", level=" + level +
+                ", score=" + score +
+                '}';
     }
 }

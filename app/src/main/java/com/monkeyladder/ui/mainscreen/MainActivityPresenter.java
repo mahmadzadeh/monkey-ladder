@@ -1,5 +1,7 @@
 package com.monkeyladder.ui.mainscreen;
 
+import android.util.Log;
+
 import com.monkeyladder.game.Location;
 import com.monkeyladder.game.UserInputEvaluationResult;
 
@@ -13,7 +15,6 @@ class MainActivityPresenter implements MainActivityPresenterContract {
     private final MainActivityModelContract model;
     private final List<Location> selectedLocations = new ArrayList<>();
     private final GameCountDownTimer timer;
-    private int count = 10;
 
     public MainActivityPresenter( MainActivityViewContract viewContract, MainActivityModelContract model,
                                   CountDownTimerParameter countDownTimerParam ) {
@@ -26,24 +27,13 @@ class MainActivityPresenter implements MainActivityPresenterContract {
 
     @Override
     public void addSelectedLocation( Location location ) {
+        Log.e( "MainActivityPresenter", "Registering user input location clicked -> " + location );
         model.addSelectedLocation( location );
 
         if ( model.hasCollectedEnoughUserInput() ) {
 
-            view.clearHighlightedCells();
-
-            UserInputEvaluationResult result = model.evaluateUserInput();
-
-            if ( UserInputEvaluationResult.Correct == result ) {
-                view.displayUserSelectionCorrectFeedback();
-            } else {
-                view.displayUserSelectionIncorrectFeedback();
-            }
-
-            // clear the feedback image
-            view.updateUserInputFeedBackImage();
-
-            model.updateGameState(result);
+            Log.e( "MainActivityPresenter", ">>>>Have enough input collected  -> " + location );
+            handleActionsForEndOfOneRound();
         }
     }
 
@@ -61,8 +51,8 @@ class MainActivityPresenter implements MainActivityPresenterContract {
     }
 
     @Override
-    public void setDisplayGameBoardProgress( String formatTime ) {
-        view.updateDisplayBoardProgressBar( count += 10 );
+    public void setDisplayGameBoardProgress( int progress ) {
+        view.updateDisplayBoardProgressBar( progress );
     }
 
     public void startDisplayTimer( ) {
@@ -70,14 +60,34 @@ class MainActivityPresenter implements MainActivityPresenterContract {
     }
 
     @Override
-    public void endDisplayTimer( ) {
+    public void onDisplayTimerFinish( ) {
         view.clearScreen();
+        view.setReadyToTakeUserInput(true);
     }
 
     @Override
     public void readyForDisplay( ) {
-        List<LocationData> cellsThatAreSet = model.getCellsThatAreSet();
+        view.setReadyToTakeUserInput( false );
 
-        view.displayBoard( cellsThatAreSet );
+        view.displayBoard( model.getCellsThatAreSet() );
+
+        this.startDisplayTimer();
+    }
+
+    private void handleActionsForEndOfOneRound( ) {
+        view.clearHighlightedCells();
+
+        UserInputEvaluationResult result = model.evaluateUserInput();
+        view.updateGameStateInUI( model.updateGameState( result ) );
+
+        model.resetGame();
+
+        if ( UserInputEvaluationResult.Correct == result ) {
+            view.displayUserSelectionCorrectFeedback();
+        } else {
+            view.displayUserSelectionIncorrectFeedback();
+        }
+
+        readyForDisplay();
     }
 }

@@ -2,10 +2,10 @@ package com.monkeyladder.ui.mainscreen;
 
 class CountDownTimerParameter {
 
-    private final long timerDurationInMillis;
-    private final long oneTickInMillis;
+    private final int timerDurationInMillis;
+    private final int oneTickInMillis;
 
-    public CountDownTimerParameter( long timerDurationInMillis, long oneTickInMillis ) {
+    public CountDownTimerParameter( int timerDurationInMillis, int oneTickInMillis ) {
         this.timerDurationInMillis = timerDurationInMillis;
         this.oneTickInMillis = oneTickInMillis;
     }
@@ -14,15 +14,15 @@ class CountDownTimerParameter {
         return  new CountDownTimerParameter( 1000, 500 );
     }
 
-    public static CountDownTimerParameter of( long timerDurationInMillis, long oneTickInMillis ) {
+    public static CountDownTimerParameter of( int timerDurationInMillis, int oneTickInMillis ) {
         return  new CountDownTimerParameter( timerDurationInMillis, oneTickInMillis );
     }
 
-    public long getTimerDurationInMillis( ) {
+    public int getTimerDurationInMillis( ) {
         return timerDurationInMillis;
     }
 
-    public long getOneTickInMillis( ) {
+    public int getOneTickInMillis( ) {
         return oneTickInMillis;
     }
 }

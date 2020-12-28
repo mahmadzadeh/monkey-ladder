@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.monkeyladder.R;
 import com.monkeyladder.game.GameLevel;
+import com.monkeyladder.game.GameState;
 import com.monkeyladder.game.Location;
 import com.monkeyladder.game.MonkeyLadderGame;
 
@@ -22,14 +23,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
     private static final CellLocationMapping locationMapping = new CellLocationMapping();
 
     private static final GameLevel STARTING_LEVEL = GameLevel.LevelThree;
-
-    private MainActivityPresenter presenter = null;
-
-    private ProgressBar progressBar;
-
-    private ImageView resultImage;
-
     private final Timer gameUpdateTimer = new Timer( false );
+    private MainActivityPresenter presenter = null;
+    private ProgressBar progressBar;
+    private ImageView resultImage;
+    private boolean isReadyForUserInput=false;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -37,18 +35,19 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
 
         presenter = new MainActivityPresenter( this,
                 new MainScreenModel( new MonkeyLadderGame( STARTING_LEVEL ) ),
-                CountDownTimerParameter.of( 5000, 100 ) );
+                CountDownTimerParameter.of( 5000, 200 ) );
 
         setContentView( R.layout.activity_main );
 
         progressBar = findViewById( R.id.progressBar );
-        resultImage =  findViewById( R.id.userSelectionResult );
+        resultImage = findViewById( R.id.userSelectionResult );
 
         presenter.readyForDisplay();
     }
 
     @Override
     public void displayBoard( List<LocationData> locationsThatAreSet ) {
+
         locationsThatAreSet
                 .stream()
                 .forEach( locationData -> {
@@ -60,8 +59,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
                     textView.setText( locationData.getData() + "" );
                     textView.setBackgroundColor( getResources().getColor( R.color.colorPrimaryDark ) );
                 } );
-
-        presenter.startDisplayTimer();
     }
 
     @Override
@@ -96,11 +93,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
     @Override
     public void displayUserSelectionCorrectFeedback( ) {
         resultImage.setImageResource( R.drawable.checkmark );
+        updateUserInputFeedBackImage();
     }
 
     @Override
     public void displayUserSelectionIncorrectFeedback( ) {
         resultImage.setImageResource( R.drawable.xmark );
+        updateUserInputFeedBackImage();
     }
 
     @Override
@@ -116,6 +115,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
 
     @Override
     public void onClick( View v ) {
+
+        if ( !isReadyForUserInput ) {
+            return;
+        }
+
         int id = v.getId();
 
         Location location = locationMapping.locationForResource( id )
@@ -123,5 +127,27 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
                         "identified by id " + id ) );
 
         presenter.addSelectedLocation( location );
+    }
+
+    /**
+     * Update
+     * 1) score
+     * 2) player lives if different
+     * 3) reset progress
+     *
+     * @param gameState
+     */
+    @Override
+    public void updateGameStateInUI( GameState gameState ) {
+        TextView scoreText = findViewById( R.id.score );
+        scoreText.setText( gameState.getScore() + "" );
+
+        // TODO update lives
+        progressBar.setProgress( 0 );
+    }
+
+    @Override
+    public void setReadyToTakeUserInput( boolean isReady ) {
+        isReadyForUserInput = isReady;
     }
 }

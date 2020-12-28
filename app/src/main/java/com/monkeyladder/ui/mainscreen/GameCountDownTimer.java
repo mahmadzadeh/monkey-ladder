@@ -1,6 +1,9 @@
 package com.monkeyladder.ui.mainscreen;
 
 import android.os.CountDownTimer;
+import android.util.Log;
+
+import com.monkeyladder.game.util.ProgressCounter;
 
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -8,22 +11,25 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 
 public class GameCountDownTimer implements DisplayCountDownTimerContract {
 
+    private final int oneTickDurationMillis;
     private final MainActivityPresenterContract presenter;
-    private final long oneTickDurationMillis;
-    private long showTimeWindowLengthInMillis;
+    private final ProgressCounter counter;
+    private int showTimeWindowLengthInMillis;
     private CountDownTimer timer;
 
     private GameCountDownTimer( MainActivityPresenterContract presenter,
-                                long showTimeWindowLengthInMillis,
-                                long oneTickDurationMillis ) {
+                                int showTimeWindowLengthInMillis,
+                                int oneTickDurationMillis ) {
         this.presenter = presenter;
         this.showTimeWindowLengthInMillis = showTimeWindowLengthInMillis;
         this.oneTickDurationMillis = oneTickDurationMillis;
+        this.counter = new ProgressCounter( showTimeWindowLengthInMillis, oneTickDurationMillis );
+        ;
     }
 
     public static GameCountDownTimer INSTANCE( MainActivityPresenterContract presenter,
-                                               long singleGameLengthMillis,
-                                               long oneTickDurationMillis ) {
+                                               int singleGameLengthMillis,
+                                               int oneTickDurationMillis ) {
 
         return new GameCountDownTimer( presenter, singleGameLengthMillis, oneTickDurationMillis );
     }
@@ -42,12 +48,14 @@ public class GameCountDownTimer implements DisplayCountDownTimerContract {
 
     @Override
     public void onTick( long millisUntilFinished ) {
-        presenter.setDisplayGameBoardProgress( formatTime( millisUntilFinished ) );
+        presenter.setDisplayGameBoardProgress( counter.getNextProgressPercentage() );
     }
 
     @Override
     public void onFinish( ) {
-        presenter.endDisplayTimer();
+        Log.e( "GameCountDownTimer", "One done done!!!!!!" );
+        counter.reset();
+        presenter.onDisplayTimerFinish();
     }
 
     @Override
