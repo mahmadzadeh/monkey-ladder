@@ -1,7 +1,6 @@
 package com.monkeyladder.ui.mainscreen;
 
 import android.os.CountDownTimer;
-import android.util.Log;
 
 import com.monkeyladder.game.util.ProgressCounter;
 
@@ -13,7 +12,7 @@ public class GameCountDownTimer implements DisplayCountDownTimerContract {
 
     private final int oneTickDurationMillis;
     private final MainActivityPresenterContract presenter;
-    private final ProgressCounter counter;
+    private final ProgressCounter progressCounter;
     private int showTimeWindowLengthInMillis;
     private CountDownTimer timer;
 
@@ -23,8 +22,7 @@ public class GameCountDownTimer implements DisplayCountDownTimerContract {
         this.presenter = presenter;
         this.showTimeWindowLengthInMillis = showTimeWindowLengthInMillis;
         this.oneTickDurationMillis = oneTickDurationMillis;
-        this.counter = new ProgressCounter( showTimeWindowLengthInMillis, oneTickDurationMillis );
-        ;
+        this.progressCounter = new ProgressCounter( showTimeWindowLengthInMillis, oneTickDurationMillis );
     }
 
     public static GameCountDownTimer INSTANCE( MainActivityPresenterContract presenter,
@@ -48,13 +46,12 @@ public class GameCountDownTimer implements DisplayCountDownTimerContract {
 
     @Override
     public void onTick( long millisUntilFinished ) {
-        presenter.setDisplayGameBoardProgress( counter.getNextProgressPercentage() );
+        presenter.setDisplayGameBoardProgress( progressCounter.getNextProgressPercentage() );
     }
 
     @Override
     public void onFinish( ) {
-        Log.e( "GameCountDownTimer", "One done done!!!!!!" );
-        counter.reset();
+        progressCounter.reset();
         presenter.onDisplayTimerFinish();
     }
 

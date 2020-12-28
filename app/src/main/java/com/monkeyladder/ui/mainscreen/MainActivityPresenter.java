@@ -1,12 +1,9 @@
 package com.monkeyladder.ui.mainscreen;
 
-import android.util.Log;
-
 import com.monkeyladder.game.Location;
 import com.monkeyladder.game.UserInputEvaluationResult;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 class MainActivityPresenter implements MainActivityPresenterContract {
@@ -26,28 +23,12 @@ class MainActivityPresenter implements MainActivityPresenterContract {
     }
 
     @Override
-    public void addSelectedLocation( Location location ) {
-        Log.e( "MainActivityPresenter", "Registering user input location clicked -> " + location );
+    public void collectSelectedLocation( Location location ) {
         model.addSelectedLocation( location );
 
         if ( model.hasCollectedEnoughUserInput() ) {
-
-            Log.e( "MainActivityPresenter", ">>>>Have enough input collected  -> " + location );
             handleActionsForEndOfOneRound();
         }
-    }
-
-    @Override
-    public List<Location> getSelectedLocations( ) {
-        return Collections.unmodifiableList( this.selectedLocations );
-    }
-
-    @Override
-    public List<LocationData> getCurrentBoard( ) {
-
-        List<LocationData> cellsThatAreSet = model.getCellsThatAreSet();
-
-        return cellsThatAreSet;
     }
 
     @Override
@@ -71,7 +52,7 @@ class MainActivityPresenter implements MainActivityPresenterContract {
 
         view.displayBoard( model.getCellsThatAreSet() );
 
-        this.startDisplayTimer();
+        startDisplayTimer();
     }
 
     private void handleActionsForEndOfOneRound( ) {

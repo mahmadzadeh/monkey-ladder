@@ -485,7 +485,7 @@
             android:id="@+id/gameNameLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.25"
+            android:layout_weight="1.1"
             android:background="#7EA0C9"
             android:orientation="vertical">
 
@@ -504,7 +504,7 @@
             android:id="@+id/timeSectionLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight=".75"
             android:background="#607A9F"
             android:orientation="vertical">
 
@@ -543,7 +543,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2.7"
                 android:gravity="top|center_horizontal"
-                
+                android:text="@string/zeroScore"
                 android:textColor="#FFFFFF"
                 android:textSize="30sp" />
         </LinearLayout>
@@ -552,7 +552,7 @@
             android:id="@+id/progressBarLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.32"
+            android:layout_weight="1"
             android:background="#607A9F"
             android:orientation="vertical">
 

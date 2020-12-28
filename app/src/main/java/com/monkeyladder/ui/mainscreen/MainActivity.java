@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
                 .orElseThrow( ( ) -> new IllegalStateException( "Unable to find the mapping for resource " +
                         "identified by id " + id ) );
 
-        presenter.addSelectedLocation( location );
+        presenter.collectSelectedLocation( location );
     }
 
     /**

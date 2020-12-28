@@ -1,7 +1,5 @@
 package com.monkeyladder.game;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,19 +55,12 @@ public class MonkeyLadderGame {
     }
 
     public GameState updateGameState( UserInputEvaluationResult result ) {
-
-        Log.e( "MOnekyLadderGame " , "aAbout to update game state " + gameState );
-
         gameState.updateGameStateBasedOnResult( result );
-
-        Log.e( "MOnekyLadderGame " , "new Game state " + gameState );
 
         return gameState;
     }
 
     public void reset( ) {
-        Log.e( "MonekyLadderGame", "really resetting the game. Level "+ gameState.getLevel() );
-
         this.board = new Board( this.DEFAULT_BOARD_SIZE, nextTrialForLevel( gameState.getLevel() ) );
 
         resetUserSelectedLocations();

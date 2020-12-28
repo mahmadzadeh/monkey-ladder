@@ -6,11 +6,7 @@ import java.util.List;
 
 public interface MainActivityPresenterContract {
 
-    void addSelectedLocation( Location location );
-
-    List<Location> getSelectedLocations( );
-
-    List<LocationData> getCurrentBoard( );
+    void collectSelectedLocation( Location location );
 
     void setDisplayGameBoardProgress( int formatTime );
 
