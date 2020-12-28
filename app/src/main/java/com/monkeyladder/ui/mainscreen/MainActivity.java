@@ -92,13 +92,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
 
     @Override
     public void displayUserSelectionCorrectFeedback( ) {
-        resultImage.setImageResource( R.drawable.checkmark );
+        resultImage.setImageResource( R.drawable.check );
         updateUserInputFeedBackImage();
     }
 
     @Override
     public void displayUserSelectionIncorrectFeedback( ) {
-        resultImage.setImageResource( R.drawable.xmark );
+        resultImage.setImageResource( R.drawable.x_error );
         updateUserInputFeedBackImage();
     }
 
