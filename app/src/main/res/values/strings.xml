@@ -5,4 +5,5 @@
     <string name="level">1</string>
     <string name="scoreHeaderText">SCORE</string>
     <string name="score">0</string>
+    <string name="monkeyLadder">Monkey Ladder</string>
 </resources>

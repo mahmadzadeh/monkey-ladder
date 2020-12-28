@@ -1,6 +1,7 @@
 package com.monkeyladder.ui.mainscreen;
 
 import com.monkeyladder.game.Location;
+import com.monkeyladder.game.UserInputEvaluationResult;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,12 +21,30 @@ class MainActivityPresenter implements MainActivityPresenterContract {
         this.model = model;
         this.timer = GameCountDownTimer.INSTANCE( this,
                 countDownTimerParam.getTimerDurationInMillis(),
-                countDownTimerParam.getOneTickInMillis());
+                countDownTimerParam.getOneTickInMillis() );
     }
 
     @Override
     public void addSelectedLocation( Location location ) {
-        selectedLocations.add( location );
+        model.addSelectedLocation( location );
+
+        if ( model.hasCollectedEnoughUserInput() ) {
+
+            view.clearHighlightedCells();
+
+            UserInputEvaluationResult result = model.evaluateUserInput();
+
+            if ( UserInputEvaluationResult.Correct == result ) {
+                view.displayUserSelectionCorrectFeedback();
+            } else {
+                view.displayUserSelectionIncorrectFeedback();
+            }
+
+            // clear the feedback image
+            view.updateUserInputFeedBackImage();
+
+            model.updateGameState(result);
+        }
     }
 
     @Override
@@ -43,7 +62,7 @@ class MainActivityPresenter implements MainActivityPresenterContract {
 
     @Override
     public void setDisplayGameBoardProgress( String formatTime ) {
-        view.updateDisplayBoardProgressBar( count+=10 );
+        view.updateDisplayBoardProgressBar( count += 10 );
     }
 
     public void startDisplayTimer( ) {
@@ -59,6 +78,6 @@ class MainActivityPresenter implements MainActivityPresenterContract {
     public void readyForDisplay( ) {
         List<LocationData> cellsThatAreSet = model.getCellsThatAreSet();
 
-        view.display( cellsThatAreSet );
+        view.displayBoard( cellsThatAreSet );
     }
 }

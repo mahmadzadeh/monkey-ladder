@@ -1,6 +1,7 @@
 package com.monkeyladder.game;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Board {
@@ -41,6 +42,11 @@ public class Board {
         return g;
     }
 
+    /**
+     * Go through the cell grid and return all the cells, in ordered form, that are
+     * set. Cells are ordered since when evaluating user input we rely on the cell
+     * data to be in ASC order to evaluate user selected cells
+     */
     public List<Cell> getCellsThatAreNotEmpty( ) {
         List<Cell> nonEmptyCells = new ArrayList<>();
 
@@ -52,6 +58,9 @@ public class Board {
                 }
             }
         }
+
+        Collections.sort( nonEmptyCells, ( o1, o2 ) -> o1.getData().compareTo( o2.getData() ) );
+
         return nonEmptyCells;
     }
 }

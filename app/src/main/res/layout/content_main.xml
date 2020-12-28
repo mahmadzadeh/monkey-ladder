@@ -28,6 +28,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
             <GridLayout
                 android:id="@+id/gridLayout"
                 android:layout_width="match_parent"
@@ -494,7 +495,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="top|bottom|center"
-                
+                android:text="@string/monkeyLadder"
                 android:textColor="#ffffff"
                 android:textSize="18sp" />
         </LinearLayout>
@@ -507,18 +508,8 @@
             android:background="#607A9F"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textViewTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.10"
-                android:fontFamily="monospace"
-                android:gravity="center"
-                
-                android:textColor="#B0C7E6" />
-
-            <TextView
-                android:id="@+id/textViewCountDownTimer"
+            <ImageView
+                android:id="@+id/userSelectionResult"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"

@@ -42,4 +42,12 @@ public class CellDataTest {
                 .range( 1, 16 )
                 .forEach( value -> assertEquals( map.get(value), CellData.from( value ) ) );
     }
+
+    @Test
+    public void CellDataCanBeCompared() {
+        assertEquals( -1, CellData.One.compareTo( CellData.Two ));
+        assertEquals( 0, CellData.Two.compareTo( CellData.Two ));
+        assertEquals( 1, CellData.Two.compareTo( CellData.One ));
+    }
+
 }

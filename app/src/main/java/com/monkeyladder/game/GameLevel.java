@@ -1,14 +1,17 @@
 package com.monkeyladder.game;
 
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.stream.IntStream.range;
 
-public enum GameLevel {
+public enum GameLevel implements Comparable<GameLevel>{
 
     Null( 0 ) {
         @Override
@@ -214,6 +217,13 @@ public enum GameLevel {
                 .filter( index -> adapter.get( index ).toString().equals( getTextRepresentation() ) )
                 .findFirst()
                 .orElse( 1 );
+    }
+
+    public static GameLevel lastLevel() {
+        List<GameLevel> levels = Arrays.stream( GameLevel.values() ).collect( Collectors.toList() );
+        Collections.sort( levels, (o1,o2)-> o1.compareTo( o2 ) );
+
+        return levels.get(levels.size()-1);
     }
 
     public String getTextRepresentation( ) {

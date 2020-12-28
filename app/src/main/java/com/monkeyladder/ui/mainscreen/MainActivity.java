@@ -2,6 +2,7 @@ package com.monkeyladder.ui.mainscreen;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -11,6 +12,8 @@ import com.monkeyladder.game.Location;
 import com.monkeyladder.game.MonkeyLadderGame;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,12 +21,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
 
     private static final CellLocationMapping locationMapping = new CellLocationMapping();
 
-    private static final GameLevel STARTING_LEVEL = GameLevel.LevelEleven;
+    private static final GameLevel STARTING_LEVEL = GameLevel.LevelThree;
 
     private MainActivityPresenter presenter = null;
 
     private ProgressBar progressBar;
 
+    private ImageView resultImage;
+
+    private final Timer gameUpdateTimer = new Timer( false );
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -36,12 +42,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
         setContentView( R.layout.activity_main );
 
         progressBar = findViewById( R.id.progressBar );
+        resultImage =  findViewById( R.id.userSelectionResult );
 
         presenter.readyForDisplay();
     }
 
     @Override
-    public void display( List<LocationData> locationsThatAreSet ) {
+    public void displayBoard( List<LocationData> locationsThatAreSet ) {
         locationsThatAreSet
                 .stream()
                 .forEach( locationData -> {
@@ -51,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
 
                     TextView textView = findViewById( resourceId );
                     textView.setText( locationData.getData() + "" );
-                    textView.setBackgroundColor( getResources().getColor( R.color.colorPrimaryDark ));
+                    textView.setBackgroundColor( getResources().getColor( R.color.colorPrimaryDark ) );
                 } );
 
         presenter.startDisplayTimer();
@@ -72,6 +79,39 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
                     TextView textView = findViewById( resourceId );
                     textView.setText( " " );
                 } );
+    }
+
+    @Override
+    public void clearHighlightedCells( ) {
+        locationMapping
+                .getMapping()
+                .keySet()
+                .stream()
+                .forEach( resourceId -> {
+                    TextView textView = findViewById( resourceId );
+                    textView.setBackgroundColor( getResources().getColor( R.color.colorPrimary ) );
+                } );
+    }
+
+    @Override
+    public void displayUserSelectionCorrectFeedback( ) {
+        resultImage.setImageResource( R.drawable.checkmark );
+    }
+
+    @Override
+    public void displayUserSelectionIncorrectFeedback( ) {
+        resultImage.setImageResource( R.drawable.xmark );
+    }
+
+    @Override
+    public void updateUserInputFeedBackImage( ) {
+        gameUpdateTimer.schedule( new TimerTask() {
+            @Override
+            public void run( ) {
+                runOnUiThread( ( ) ->
+                        resultImage.setImageResource( R.drawable.transparent ) );
+            }
+        }, 500 );
     }
 
     @Override

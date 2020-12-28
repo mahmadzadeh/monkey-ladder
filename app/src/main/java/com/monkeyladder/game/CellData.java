@@ -1,6 +1,6 @@
 package com.monkeyladder.game;
 
-public enum CellData {
+public enum CellData implements Comparable<CellData> {
     EmptyCellData( -1 ),
     One( 1 ),
     Two( 2 ),
