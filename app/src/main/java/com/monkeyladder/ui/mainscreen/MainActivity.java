@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
     private MainActivityPresenter presenter = null;
     private ProgressBar progressBar;
     private ImageView resultImage;
-    private boolean isReadyForUserInput=false;
+    private boolean isReadyForUserInput = false;
 
     @Override
     protected void onCreate( Bundle savedInstanceState ) {
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
         progressBar = findViewById( R.id.progressBar );
         resultImage = findViewById( R.id.userSelectionResult );
 
-        presenter.readyForDisplay();
+        presenter.startOneRound();
     }
 
     @Override
@@ -105,12 +105,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
     @Override
     public void updateUserInputFeedBackImage( ) {
         gameUpdateTimer.schedule( new TimerTask() {
-            @Override
-            public void run( ) {
-                runOnUiThread( ( ) ->
-                        resultImage.setImageResource( R.drawable.transparent ) );
-            }
-        }, 500 );
+                                      @Override
+                                      public void run( ) {
+                                          runOnUiThread( ( ) ->
+                                                  resultImage.setImageResource( R.drawable.transparent ) );
+                                      }
+                                  },
+                500 );
     }
 
     @Override

@@ -8,11 +8,11 @@ interface MainActivityViewContract {
 
     void displayBoard( List<LocationData> board );
 
-    void updateDisplayBoardProgressBar( int progress );
+    void clearHighlightedCells( );
 
     void clearScreen( );
 
-    void clearHighlightedCells( );
+    void updateDisplayBoardProgressBar( int progress );
 
     void displayUserSelectionCorrectFeedback( );
 

@@ -23,21 +23,30 @@ class MainActivityPresenter implements MainActivityPresenterContract {
     }
 
     @Override
+    public void startOneRound( ) {
+        view.setReadyToTakeUserInput( false );
+
+        view.displayBoard( model.getCellsThatAreSet() );
+
+        startDisplayTimer();
+    }
+
+    public void startDisplayTimer( ) {
+        timer.start();
+    }
+
+    @Override
     public void collectSelectedLocation( Location location ) {
         model.addSelectedLocation( location );
 
         if ( model.hasCollectedEnoughUserInput() ) {
-            handleActionsForEndOfOneRound();
+            endOneRound();
         }
     }
 
     @Override
     public void setDisplayGameBoardProgress( int progress ) {
         view.updateDisplayBoardProgressBar( progress );
-    }
-
-    public void startDisplayTimer( ) {
-        timer.start();
     }
 
     @Override
@@ -47,15 +56,7 @@ class MainActivityPresenter implements MainActivityPresenterContract {
     }
 
     @Override
-    public void readyForDisplay( ) {
-        view.setReadyToTakeUserInput( false );
-
-        view.displayBoard( model.getCellsThatAreSet() );
-
-        startDisplayTimer();
-    }
-
-    private void handleActionsForEndOfOneRound( ) {
+    public void endOneRound( ) {
         view.clearHighlightedCells();
 
         UserInputEvaluationResult result = model.evaluateUserInput();
@@ -69,6 +70,6 @@ class MainActivityPresenter implements MainActivityPresenterContract {
             view.displayUserSelectionIncorrectFeedback();
         }
 
-        readyForDisplay();
+        startOneRound();
     }
 }

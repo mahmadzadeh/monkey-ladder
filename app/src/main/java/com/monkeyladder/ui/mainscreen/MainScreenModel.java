@@ -24,7 +24,7 @@ class MainScreenModel implements MainActivityModelContract {
 
     @Override
     public void addSelectedLocation( Location location ) {
-        this.monkeyLadderGame.addUserSelectedLocation(location);
+        this.monkeyLadderGame.addUserSelectedLocation( location );
     }
 
     @Override
@@ -39,7 +39,7 @@ class MainScreenModel implements MainActivityModelContract {
 
     @Override
     public GameState updateGameState( UserInputEvaluationResult result ) {
-        return monkeyLadderGame.updateGameState(result);
+        return monkeyLadderGame.updateGameState( result );
     }
 
     @Override
@@ -51,6 +51,6 @@ class MainScreenModel implements MainActivityModelContract {
         return setCells
                 .stream()
                 .map( cell -> new LocationData( cell.getLocation(), cell.getData().getData() ) )
-                .collect( Collectors.toList());
+                .collect( Collectors.toList() );
     }
 }
