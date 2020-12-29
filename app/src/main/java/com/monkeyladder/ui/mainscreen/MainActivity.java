@@ -1,6 +1,7 @@
 package com.monkeyladder.ui.mainscreen;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -11,6 +12,7 @@ import com.monkeyladder.game.GameLevel;
 import com.monkeyladder.game.GameState;
 import com.monkeyladder.game.Location;
 import com.monkeyladder.game.MonkeyLadderGame;
+import com.monkeyladder.game.PlayerLives;
 
 import java.util.List;
 import java.util.Timer;
@@ -27,6 +29,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
     private MainActivityPresenter presenter = null;
     private ProgressBar progressBar;
     private ImageView resultImage;
+    private ImageView livesImage;
+    private TextView livesText;
+
     private boolean isReadyForUserInput = false;
 
     @Override
@@ -39,8 +44,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
 
         setContentView( R.layout.activity_main );
 
-        progressBar = findViewById( R.id.progressBar );
-        resultImage = findViewById( R.id.userSelectionResult );
+        initUserInterfaceElements();
 
         presenter.startOneRound();
     }
@@ -155,5 +159,36 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
     @Override
     public void onGameEnd( ) {
         //
+    }
+
+    @Override
+    public void updateLivesInUI( PlayerLives lives ) {
+        livesText = findViewById( R.id.livesLeftText );
+        int lifeCount = lives.getLifeCount();
+        Log.e( "Main Activity ", ">>>>>>Updating life count in UI lifeCount: " + lifeCount );
+        livesText.setText( getResources().getString( R.string.livesText, lifeCount ) );
+        switch ( lives.getHealth() ) {
+            case Danger:
+                this.livesImage.setImageResource( R.drawable.heart_danger );
+                break;
+            case WarningState:
+                this.livesImage.setImageResource( R.drawable.heart_warning );
+                break;
+            case Healthy:
+                this.livesImage.setImageResource( R.drawable.heart_healthy );
+                break;
+            default:
+                throw new RuntimeException( "Unable to determine the health image to be used " +
+                        "for lives " + lives );
+        }
+    }
+
+    private void initUserInterfaceElements( ) {
+        progressBar = findViewById( R.id.progressBar );
+        resultImage = findViewById( R.id.userSelectionResult );
+        livesImage = findViewById( R.id.livesImage );
+        livesImage.setImageResource( R.drawable.heart_healthy );
+        livesText = findViewById( R.id.livesLeftText );
+        livesText.setText( getResources().getString( R.string.livesText, presenter.getCurrentGameState().getLives().getLifeCount() ) );
     }
 }

@@ -21,4 +21,6 @@ interface MainActivityModelContract {
     void resetGame( );
 
     boolean isEndGame( UserInputEvaluationResult result );
+
+    GameState getCurrentGameState( );
 }

@@ -52,6 +52,11 @@ class MainScreenModel implements MainActivityModelContract {
         return monkeyLadderGame.isGameEnd( result );
     }
 
+    @Override
+    public GameState getCurrentGameState( ) {
+        return monkeyLadderGame.getCurrentState();
+    }
+
     private List<LocationData> convert( List<Cell> setCells ) {
         return setCells
                 .stream()

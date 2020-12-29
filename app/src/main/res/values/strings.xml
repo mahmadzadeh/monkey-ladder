@@ -7,4 +7,5 @@
     <string name="score">0</string>
     <string name="monkeyLadder">Monkey Ladder</string>
     <string name="zeroScore">0</string>
+    <string name="livesText">Lives Left: %1$d</string>
 </resources>

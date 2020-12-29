@@ -12,6 +12,15 @@ public class GameState {
         this.score = score;
     }
 
+    /**
+     * Copy constructor
+     *
+     * @param gameState
+     */
+    public GameState( GameState gameState ) {
+        this( gameState.getLives(), gameState.getLevel(), gameState.getScore() );
+    }
+
     public PlayerLives getLives( ) {
         return lives;
     }

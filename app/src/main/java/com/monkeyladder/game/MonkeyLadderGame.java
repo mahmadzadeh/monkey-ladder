@@ -20,7 +20,7 @@ public class MonkeyLadderGame {
     }
 
     public MonkeyLadderGame( GameLevel level ) {
-        this( new Board( DEFAULT_BOARD_SIZE, nextTrialForLevel( level ) ), level, PlayerLives.Default );
+        this( new Board( DEFAULT_BOARD_SIZE, nextTrialForLevel( level ) ), level, PlayerLives.getDefaultStartingValue() );
     }
 
     public List<Cell> getCurrentCellsSetOnBoard( ) {
@@ -70,5 +70,9 @@ public class MonkeyLadderGame {
     public boolean isGameEnd( UserInputEvaluationResult result ) {
         return Incorrect == result
                 && gameState.getLives().lifeCount <= 0;
+    }
+
+    public GameState getCurrentState( ) {
+        return new GameState( this.gameState );
     }
 }
