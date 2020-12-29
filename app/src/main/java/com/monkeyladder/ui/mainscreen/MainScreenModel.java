@@ -47,6 +47,11 @@ class MainScreenModel implements MainActivityModelContract {
         monkeyLadderGame.reset();
     }
 
+    @Override
+    public boolean isEndGame( UserInputEvaluationResult result ) {
+        return monkeyLadderGame.isGameEnd( result );
+    }
+
     private List<LocationData> convert( List<Cell> setCells ) {
         return setCells
                 .stream()

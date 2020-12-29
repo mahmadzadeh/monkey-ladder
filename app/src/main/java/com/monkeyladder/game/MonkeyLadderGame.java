@@ -3,6 +3,7 @@ package com.monkeyladder.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.monkeyladder.game.UserInputEvaluationResult.Incorrect;
 import static com.monkeyladder.game.util.random.RandomBoardGenerator.nextTrialForLevel;
 
 public class MonkeyLadderGame {
@@ -12,14 +13,14 @@ public class MonkeyLadderGame {
     private Board board;
     private List<Location> userSelectedLocations;
 
-    public MonkeyLadderGame( Board board, GameLevel level ) {
+    public MonkeyLadderGame( Board board, GameLevel level, PlayerLives lives ) {
         this.board = board;
         this.userSelectedLocations = new ArrayList<>();
-        this.gameState = new GameState( PlayerLives.Default, level, 0 );
+        this.gameState = new GameState( lives, level, 0 );
     }
 
     public MonkeyLadderGame( GameLevel level ) {
-        this( new Board( DEFAULT_BOARD_SIZE, nextTrialForLevel( level ) ), level );
+        this( new Board( DEFAULT_BOARD_SIZE, nextTrialForLevel( level ) ), level, PlayerLives.Default );
     }
 
     public List<Cell> getCurrentCellsSetOnBoard( ) {
@@ -47,7 +48,7 @@ public class MonkeyLadderGame {
             Cell cell = nonEmptyCells.get( index );
             Location location = userSelectedLocations.get( index );
             if ( cell.getLocation() != location ) {
-                return UserInputEvaluationResult.Incorrect;
+                return Incorrect;
             }
         }
 
@@ -61,8 +62,13 @@ public class MonkeyLadderGame {
     }
 
     public void reset( ) {
-        this.board = new Board( this.DEFAULT_BOARD_SIZE, nextTrialForLevel( gameState.getLevel() ) );
+        this.board = new Board( DEFAULT_BOARD_SIZE, nextTrialForLevel( gameState.getLevel() ) );
 
         resetUserSelectedLocations();
+    }
+
+    public boolean isGameEnd( UserInputEvaluationResult result ) {
+        return Incorrect == result
+                && gameState.getLives().lifeCount <= 0;
     }
 }

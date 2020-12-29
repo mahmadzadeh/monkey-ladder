@@ -5,20 +5,25 @@ import org.junit.Test;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class MonkeyLadderGameTest {
 
+    Location expectedLocation_1 = Location.ZeroZero;
+    Location expectedLocation_2 = Location.ZeroOne;
+    Cell cellToBeSelected_1 = new Cell( expectedLocation_1, CellData.One );
+    Cell cellToBeSelected_2 = new Cell( expectedLocation_2, CellData.Two );
     private MonkeyLadderGame monkeyLadderGame;
 
     @Test
     public void constructor( ) {
-        monkeyLadderGame = new MonkeyLadderGame( new Board( BoardSize.FourByFive ), GameLevel.LevelTen );
+        monkeyLadderGame = new MonkeyLadderGame( new Board( BoardSize.FourByFive ), GameLevel.LevelTen, PlayerLives.Default );
     }
 
     @Test
     public void givenLevelOne_whenCollectedOneUserSelectedLocation_thenGameHasEnoughUserInputLoc( ) {
-        monkeyLadderGame = new MonkeyLadderGame( new Board( BoardSize.FourByFive ), GameLevel.LevelOne );
+        monkeyLadderGame = new MonkeyLadderGame( new Board( BoardSize.FourByFive ), GameLevel.LevelOne, PlayerLives.Default );
 
         monkeyLadderGame.addUserSelectedLocation( Location.ZeroZero );
 
@@ -35,7 +40,7 @@ public class MonkeyLadderGameTest {
 
         Board board = new Board( BoardSize.FourByFive, Arrays.asList( cellToBeSelected ) );
 
-        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelOne );
+        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelOne, PlayerLives.Default );
 
         monkeyLadderGame.addUserSelectedLocation( userSelectedLocation );
 
@@ -54,7 +59,7 @@ public class MonkeyLadderGameTest {
 
         Board board = new Board( BoardSize.FourByFive, Arrays.asList( cellToBeSelected ) );
 
-        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelOne );
+        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelOne, PlayerLives.Default );
 
         monkeyLadderGame.addUserSelectedLocation( expectedLocation );
 
@@ -74,7 +79,7 @@ public class MonkeyLadderGameTest {
 
         Board board = new Board( BoardSize.FourByFive, Arrays.asList( cellToBeSelected_1, cellToBeSelected_2 ) );
 
-        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelTwo );
+        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelTwo, PlayerLives.Default );
 
         // selection order is in reverse order
         monkeyLadderGame.addUserSelectedLocation( expectedLocation_2 );
@@ -96,7 +101,7 @@ public class MonkeyLadderGameTest {
 
         Board board = new Board( BoardSize.FourByFive, Arrays.asList( cellToBeSelected_1, cellToBeSelected_2 ) );
 
-        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelTwo );
+        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelTwo, PlayerLives.Default );
 
         monkeyLadderGame.addUserSelectedLocation( expectedLocation_1 ); // order are
         monkeyLadderGame.addUserSelectedLocation( expectedLocation_2 );
@@ -129,7 +134,7 @@ public class MonkeyLadderGameTest {
                         cellToBeSelected_4,
                         cellToBeSelected_5 ) );
 
-        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelFive );
+        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelFive, PlayerLives.Default );
 
         monkeyLadderGame.addUserSelectedLocation( expectedLocation_1 );
         monkeyLadderGame.addUserSelectedLocation( expectedLocation_2 );
@@ -165,7 +170,7 @@ public class MonkeyLadderGameTest {
 
         Board board = new Board( BoardSize.FourByFive, Arrays.asList( cellToBeSelected_1, cellToBeSelected_2 ) );
 
-        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelTwo );
+        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelTwo, PlayerLives.Default );
 
         monkeyLadderGame.addUserSelectedLocation( expectedLocation_1 ); // order are
         monkeyLadderGame.addUserSelectedLocation( expectedLocation_2 );
@@ -177,8 +182,59 @@ public class MonkeyLadderGameTest {
         assertEquals( UserInputEvaluationResult.Correct, result );
 
         monkeyLadderGame.updateGameState( result );
-
     }
 
+    @Test
+    public void givenAtLevelThreeAndNoLivesLeft_thenWrongSelectionWillEndGame( ) {
+
+        OneRoundResult gameRunResult = playOneBadRound( GameLevel.LevelTwo ); // 2 - 1 = 1 life left
+
+        assertEquals( GameLevel.LevelOne, gameRunResult.gameState.getLevel() );
+        assertFalse( monkeyLadderGame.isGameEnd( gameRunResult.result ) );
+
+        gameRunResult = playOneBadFollowUpRound();  // 1 - 1 = no life left
+
+        assertEquals( GameLevel.LevelOne, gameRunResult.gameState.getLevel() );
+        assertEquals( UserInputEvaluationResult.Incorrect, gameRunResult.result );
+        assertFalse( monkeyLadderGame.isGameEnd( gameRunResult.result ) );
+
+        gameRunResult = playOneBadFollowUpRound();  //last mistake - game end
+        assertTrue( monkeyLadderGame.isGameEnd( gameRunResult.result ) );
+    }
+
+    private OneRoundResult playOneBadRound( GameLevel gameLevel ) {
+
+        Board board = new Board( BoardSize.FourByFive, Arrays.asList( cellToBeSelected_1, cellToBeSelected_2 ) );
+
+        monkeyLadderGame = new MonkeyLadderGame( board, gameLevel, PlayerLives.Default );
+
+        monkeyLadderGame.addUserSelectedLocation( expectedLocation_2 ); // wrong order are
+        monkeyLadderGame.addUserSelectedLocation( expectedLocation_1 );
+
+        UserInputEvaluationResult result = monkeyLadderGame.evaluate();
+
+        return new OneRoundResult( monkeyLadderGame.updateGameState( result ), result );
+    }
+
+    private OneRoundResult playOneBadFollowUpRound( ) {
+        monkeyLadderGame.reset();
+
+        monkeyLadderGame.addUserSelectedLocation( expectedLocation_2 ); // wrong order are
+        monkeyLadderGame.addUserSelectedLocation( expectedLocation_1 );
+
+        UserInputEvaluationResult result = monkeyLadderGame.evaluate();
+
+        return new OneRoundResult( monkeyLadderGame.updateGameState( result ), result );
+    }
+
+    private class OneRoundResult {
+        private GameState gameState;
+        private UserInputEvaluationResult result;
+
+        public OneRoundResult( GameState gameState, UserInputEvaluationResult result ) {
+            this.gameState = gameState;
+            this.result = result;
+        }
+    }
 
 }

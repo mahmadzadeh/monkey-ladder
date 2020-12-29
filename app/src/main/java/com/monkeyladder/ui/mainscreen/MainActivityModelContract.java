@@ -19,4 +19,6 @@ interface MainActivityModelContract {
     GameState updateGameState( UserInputEvaluationResult result );
 
     void resetGame( );
+
+    boolean isEndGame( UserInputEvaluationResult result );
 }

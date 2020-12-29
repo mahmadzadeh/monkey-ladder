@@ -52,7 +52,7 @@ class MainActivityPresenter implements MainActivityPresenterContract {
     @Override
     public void onDisplayTimerFinish( ) {
         view.clearScreen();
-        view.setReadyToTakeUserInput(true);
+        view.setReadyToTakeUserInput( true );
     }
 
     @Override
@@ -69,7 +69,10 @@ class MainActivityPresenter implements MainActivityPresenterContract {
         } else {
             view.displayUserSelectionIncorrectFeedback();
         }
-
-        startOneRound();
+        if ( model.isEndGame( result ) ) {
+            view.onGameEnd();
+        } else {
+            startOneRound();
+        }
     }
 }

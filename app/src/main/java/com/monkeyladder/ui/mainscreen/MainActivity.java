@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
 
         presenter = new MainActivityPresenter( this,
                 new MainScreenModel( new MonkeyLadderGame( STARTING_LEVEL ) ),
-                CountDownTimerParameter.of( 5000, 200 ) );
+                CountDownTimerParameter.of( 3000, 200 ) );
 
         setContentView( R.layout.activity_main );
 
@@ -150,5 +150,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
     @Override
     public void setReadyToTakeUserInput( boolean isReady ) {
         isReadyForUserInput = isReady;
+    }
+
+    @Override
+    public void onGameEnd( ) {
+        //
     }
 }

@@ -23,4 +23,6 @@ interface MainActivityViewContract {
     void updateGameStateInUI( GameState gameState );
 
     void setReadyToTakeUserInput( boolean isReady );
+
+    void onGameEnd( );
 }
