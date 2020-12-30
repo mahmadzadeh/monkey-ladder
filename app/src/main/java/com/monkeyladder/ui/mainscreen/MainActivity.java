@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity implements MainActivityViewContract, View.OnClickListener {
 
     private static final CellLocationMapping locationMapping = new CellLocationMapping();
+    private static final CellDataMapping dataMapping = new CellDataMapping();
 
     private static final GameLevel STARTING_LEVEL = GameLevel.LevelThree;
     private final Timer gameUpdateTimer = new Timer( false );
@@ -59,9 +60,12 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
                             .resourceIdForLocation( locationData.getLocation() )
                             .orElseThrow( ( ) -> new RuntimeException( "" ) );
 
-                    TextView textView = findViewById( resourceId );
-                    textView.setText( locationData.getData() + "" );
-                    textView.setBackgroundColor( getResources().getColor( R.color.colorPrimaryDark ) );
+                    ImageView imageView = findViewById( resourceId );
+                    imageView.setBackgroundColor( getResources().getColor( R.color.colorPrimaryDark ) );
+                    imageView.setImageResource(
+                            dataMapping.drawableResourceIdFor( locationData.getData() )
+                                    .orElseThrow( ( ) -> new RuntimeException( "" ) ) );
+
                 } );
     }
 
@@ -77,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
                 .keySet()
                 .stream()
                 .forEach( resourceId -> {
-                    TextView textView = findViewById( resourceId );
-                    textView.setText( " " );
+                    ImageView imageView = findViewById( resourceId );
+                    imageView.setImageResource( R.drawable.transparent );
                 } );
     }
 
@@ -89,8 +93,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
                 .keySet()
                 .stream()
                 .forEach( resourceId -> {
-                    TextView textView = findViewById( resourceId );
-                    textView.setBackgroundColor( getResources().getColor( R.color.colorPrimary ) );
+                    ImageView imageView = findViewById( resourceId );
+                    imageView.setBackgroundColor( getResources().getColor( R.color.colorPrimary ) );
                 } );
     }
 
