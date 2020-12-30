@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layoutHolder"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -97,8 +98,7 @@
                     android:textColor="@color/colorPrimary"
                     android:textSize="22dp"
                     android:textStyle="bold"
-                    android:typeface="serif"
-                    />
+                    android:typeface="serif" />
 
                 <TextView
                     android:id="@+id/text_03"
@@ -418,8 +418,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_row="3"
-                    android:layout_column="3"
                     android:layout_rowWeight="1"
+                    android:layout_column="3"
                     android:layout_columnWeight="1"
                     android:layout_marginRight="1dp"
                     android:layout_marginBottom="1dp"
@@ -456,11 +456,10 @@
                     android:typeface="serif" />
 
 
-
             </GridLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/left_layout_top_rght"
+                android:id="@+id/left_layout_top_right"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1.7"
@@ -481,6 +480,7 @@
         android:orientation="vertical"
         android:scrollbarAlwaysDrawHorizontalTrack="true">
 
+        <!-- Game name section -->
         <LinearLayout
             android:id="@+id/gameNameLayout"
             android:layout_width="match_parent"
@@ -500,103 +500,181 @@
                 android:textSize="18sp" />
         </LinearLayout>
 
+        <!--Various Game info section-->
         <LinearLayout
-            android:id="@+id/userSectionLayout"
+            android:id="@+id/gameInfoLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight=".95"
+            android:layout_weight="0.2"
             android:background="#607A9F"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/userSelectionResult"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:gravity="center_horizontal"
-
-                android:textColor="#FFFFFF"
-                android:textSize="30sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/userLivesLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.1"
-            android:background="#607A9F"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/livesLeftText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.35"
-                android:fontFamily="monospace"
-                android:gravity="center"
-                android:text="@string/livesText"
-                android:textColor="#B0C7E6" />
-
-            <ImageView
-                android:id="@+id/livesImage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:gravity="center_horizontal"
-                android:textColor="#FFFFFF"
-                android:textSize="30sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/scoreLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#607A9F"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textViewScoreText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.35"
-                android:fontFamily="monospace"
-                android:gravity="center"
-                android:text="@string/scoreHeaderText"
-                android:textColor="#B0C7E6" />
-
-            <TextView
-                android:id="@+id/score"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2.7"
-                android:gravity="top|center_horizontal"
-                android:text="@string/zeroScore"
-                android:textColor="#FFFFFF"
-                android:textSize="30sp" />
-        </LinearLayout>
-        <LinearLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/progressBarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="#607A9F"
-            android:orientation="vertical">
-
-            <androidx.core.widget.ContentLoadingProgressBar
-                android:id="@+id/progressBar"
+            <!--User Input Section-->
+            <LinearLayout
+                android:id="@+id/userInputSectionLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                style="?android:progressBarStyleHorizontal"
-                android:progress="0"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:progressDrawable="@drawable/circle"/>
+                android:layout_weight="1"
+                android:background="#607A9F"
+                android:orientation="vertical">
 
+                <ImageView
+                    android:id="@+id/userSelectionResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    android:gravity="center_horizontal"
+                    android:textColor="#FFFFFF"
+                    android:textSize="30sp" />
+            </LinearLayout>
+
+
+            <!-- User lives section-->
+            <LinearLayout
+                android:id="@+id/playerLivesLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#607A9F"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/playerLivesMiddleLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#607A9F"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="0dp"
+                        android:layout_weight="1"
+                        android:background="#607A9F">
+
+                        <ImageView
+                            android:id="@+id/livesCircle"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/round_circle_background" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_alignBottom="@+id/livesCircle"
+                            android:orientation="vertical"
+                            android:paddingTop="18dp">
+
+                            <ImageView
+                                android:id="@+id/livesImage"
+                                android:layout_width="match_parent"
+                                android:layout_height="10dp"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/heart_healthy" />
+
+                            <TextView
+                                android:id="@+id/livesHeaderText"
+                                android:layout_width="match_parent"
+                                android:layout_height="15dp"
+                                android:fontFamily="monospace"
+                                android:gravity="bottom|center"
+                                android:text="@string/livesHeaderText"
+                                android:textColor="#B0C7E6"
+                                android:textSize="10sp" />
+
+                            <TextView
+                                android:id="@+id/livesLeftText"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:fontFamily="monospace"
+                                android:gravity="top|center"
+                                android:text="@string/livesText"
+                                android:textColor="#FFFFFF"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+                    </RelativeLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <!-- Score -->
+            <LinearLayout
+                android:id="@+id/playerScoreLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#607A9F"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="0dp"
+                    android:layout_weight="1"
+                    android:background="#607A9F">
+
+                    <ImageView
+                        android:id="@+id/scoreCircleImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/round_circle_background" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignBottom="@+id/scoreCircleImage"
+                        android:layout_alignParentLeft="true"
+                        android:orientation="vertical"
+                        android:paddingTop="18dp">
+
+                        <TextView
+                            android:id="@+id/textViewScoreText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.3"
+                            android:fontFamily="monospace"
+                            android:gravity="bottom|center"
+                            android:text="@string/scoreHeaderText"
+                            android:textColor="#B0C7E6"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/score"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2.9"
+                            android:gravity="top|center_horizontal"
+                            android:text="@string/zeroScore"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <!--count down -->
+            <LinearLayout
+                android:id="@+id/countDownLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#607A9F"
+                android:orientation="vertical">
+
+                <androidx.core.widget.ContentLoadingProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    style="?android:progressBarStyleHorizontal"
+                    android:progress="0"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:progressDrawable="@drawable/circle" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>

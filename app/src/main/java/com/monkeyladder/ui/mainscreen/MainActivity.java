@@ -96,13 +96,13 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
 
     @Override
     public void displayUserSelectionCorrectFeedback( ) {
-        resultImage.setImageResource( R.drawable.check );
+        resultImage.setImageResource( R.drawable.good_mood );
         updateUserInputFeedBackImage();
     }
 
     @Override
     public void displayUserSelectionIncorrectFeedback( ) {
-        resultImage.setImageResource( R.drawable.x_error );
+        resultImage.setImageResource( R.drawable.bad_mood );
         updateUserInputFeedBackImage();
     }
 
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
                                       @Override
                                       public void run( ) {
                                           runOnUiThread( ( ) ->
-                                                  resultImage.setImageResource( R.drawable.transparent ) );
+                                                  resultImage.setImageResource( R.drawable.expecting_input ) );
                                       }
                                   },
                 500 );
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
         scoreText.setText( gameState.getScore() + "" );
 
         // TODO update lives
-        progressBar.setProgress( 0 );
+        //progressBar.setProgress( 0 );
     }
 
     @Override
@@ -189,6 +189,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
         livesImage = findViewById( R.id.livesImage );
         livesImage.setImageResource( R.drawable.heart_healthy );
         livesText = findViewById( R.id.livesLeftText );
-        livesText.setText( getResources().getString( R.string.livesText, presenter.getCurrentGameState().getLives().getLifeCount() ) );
+
+        livesText.setText( getResources().getString( R.string.livesText,
+                presenter.getCurrentGameState().getLives().getLifeCount() ) );
+
+        resultImage.setImageResource( R.drawable.expecting_input );
     }
 }
