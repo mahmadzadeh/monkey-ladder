@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
 
         presenter = new MainActivityPresenter( this,
                 new MainScreenModel( new MonkeyLadderGame( STARTING_LEVEL ) ),
-                CountDownTimerParameter.of( 3000, 200 ) );
+                CountDownTimerParameter.of( 2500, 100 ) );
 
         setContentView( R.layout.activity_main );
 
