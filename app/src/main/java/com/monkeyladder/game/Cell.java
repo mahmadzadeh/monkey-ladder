@@ -37,4 +37,12 @@ public class Cell {
     public int hashCode( ) {
         return Objects.hash( location, data );
     }
+
+    @Override
+    public String toString( ) {
+        return "Cell{" +
+                "location=" + location +
+                ", data=" + data +
+                '}';
+    }
 }

@@ -8,11 +8,11 @@ public class GameStateTest {
 
     @Test
     public void givenInitialGameStateAndCorrectUserInput_thenUpdateWillUpdateItBasedOnUserInput( ) {
-        GameState state = new GameState( PlayerLives.Default, GameLevel.LevelThree, 0 );
+        GameState state = new GameState( PlayerLives.getDefaultStartingValue(), GameLevel.LevelThree, 0 );
 
         state.updateGameStateBasedOnResult( UserInputEvaluationResult.Correct );
 
-        assertEquals( PlayerLives.Default, state.getLives() );
+        assertEquals( PlayerLives.getDefaultStartingValue(), state.getLives() );
         assertEquals( GameLevel.LevelFour, state.getLevel() );
         assertEquals( 0 + GameLevel.LevelThree.cellCount(), state.getScore() );
 

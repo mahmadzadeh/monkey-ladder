@@ -1,7 +1,6 @@
 package com.monkeyladder.ui.mainscreen;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -31,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
     private ProgressBar progressBar;
     private ImageView resultImage;
     private ImageView livesImage;
-    private TextView livesText;
 
     private boolean isReadyForUserInput = false;
 
@@ -41,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
 
         presenter = new MainActivityPresenter( this,
                 new MainScreenModel( new MonkeyLadderGame( STARTING_LEVEL ) ),
-                CountDownTimerParameter.of( 2500, 100 ) );
+                CountDownTimerParameter.of( 2500, 50 ) );
 
         setContentView( R.layout.activity_main );
 
@@ -80,10 +78,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
                 .getMapping()
                 .keySet()
                 .stream()
-                .forEach( resourceId -> {
-                    ImageView imageView = findViewById( resourceId );
-                    imageView.setImageResource( R.drawable.transparent );
-                } );
+                .forEach( resourceId -> clearResource( resourceId ) );
+
     }
 
     @Override
@@ -92,34 +88,31 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
                 .getMapping()
                 .keySet()
                 .stream()
-                .forEach( resourceId -> {
-                    ImageView imageView = findViewById( resourceId );
-                    imageView.setBackgroundColor( getResources().getColor( R.color.colorPrimary ) );
-                } );
+                .forEach( resourceId -> clearHighlightedCell( resourceId ) );
     }
+
 
     @Override
     public void displayUserSelectionCorrectFeedback( ) {
-        resultImage.setImageResource( R.drawable.good_mood );
+        resultImage.setImageResource( R.drawable.check );
         updateUserInputFeedBackImage();
     }
 
     @Override
     public void displayUserSelectionIncorrectFeedback( ) {
-        resultImage.setImageResource( R.drawable.bad_mood );
+        resultImage.setImageResource( R.drawable.x_error );
         updateUserInputFeedBackImage();
     }
 
     @Override
     public void updateUserInputFeedBackImage( ) {
         gameUpdateTimer.schedule( new TimerTask() {
-                                      @Override
-                                      public void run( ) {
-                                          runOnUiThread( ( ) ->
-                                                  resultImage.setImageResource( R.drawable.expecting_input ) );
-                                      }
-                                  },
-                500 );
+            @Override
+            public void run( ) {
+                runOnUiThread( ( ) ->
+                        resultImage.setImageResource( R.drawable.expecting_input ) );
+            }
+        }, 500 );
     }
 
     @Override
@@ -134,6 +127,11 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
         Location location = locationMapping.locationForResource( id )
                 .orElseThrow( ( ) -> new IllegalStateException( "Unable to find the mapping for resource " +
                         "identified by id " + id ) );
+
+        Integer resourceId = locationMapping.resourceIdForLocation( location )
+                .orElseThrow( ( ) -> new IllegalStateException( "Invalid location " + location ) );
+
+        clearHighlightedCell( resourceId );
 
         presenter.collectSelectedLocation( location );
     }
@@ -167,19 +165,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
 
     @Override
     public void updateLivesInUI( PlayerLives lives ) {
-        livesText = findViewById( R.id.livesLeftText );
-        int lifeCount = lives.getLifeCount();
-        Log.e( "Main Activity ", ">>>>>>Updating life count in UI lifeCount: " + lifeCount );
-        livesText.setText( getResources().getString( R.string.livesText, lifeCount ) );
         switch ( lives.getHealth() ) {
             case Danger:
-                this.livesImage.setImageResource( R.drawable.heart_danger );
+                this.livesImage.setImageResource( R.drawable.one_life );
                 break;
             case WarningState:
-                this.livesImage.setImageResource( R.drawable.heart_warning );
+                this.livesImage.setImageResource( R.drawable.two_lives );
                 break;
             case Healthy:
-                this.livesImage.setImageResource( R.drawable.heart_healthy );
+                this.livesImage.setImageResource( R.drawable.three_lives );
                 break;
             default:
                 throw new RuntimeException( "Unable to determine the health image to be used " +
@@ -191,12 +185,22 @@ public class MainActivity extends AppCompatActivity implements MainActivityViewC
         progressBar = findViewById( R.id.progressBar );
         resultImage = findViewById( R.id.userSelectionResult );
         livesImage = findViewById( R.id.livesImage );
-        livesImage.setImageResource( R.drawable.heart_healthy );
-        livesText = findViewById( R.id.livesLeftText );
-
-        livesText.setText( getResources().getString( R.string.livesText,
-                presenter.getCurrentGameState().getLives().getLifeCount() ) );
-
+        livesImage.setImageResource( R.drawable.three_lives );
         resultImage.setImageResource( R.drawable.expecting_input );
     }
+
+
+    private void clearResource( Integer resourceId ) {
+        ImageView imageView = findViewById( resourceId );
+
+        imageView.setImageResource( R.drawable.transparent );
+    }
+
+    private void clearHighlightedCell( Integer resourceId ) {
+
+        ImageView imageView = findViewById( resourceId );
+
+        imageView.setBackgroundColor( getResources().getColor( R.color.colorPrimary ) );
+    }
+
 }

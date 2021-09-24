@@ -18,12 +18,12 @@ public class MonkeyLadderGameTest {
 
     @Test
     public void constructor( ) {
-        monkeyLadderGame = new MonkeyLadderGame( new Board( BoardSize.FourByFive ), GameLevel.LevelTen, PlayerLives.Default );
+        monkeyLadderGame = new MonkeyLadderGame( new Board( BoardSize.FourByFive ), GameLevel.LevelTen, PlayerLives.getDefaultStartingValue() );
     }
 
     @Test
     public void givenLevelOne_whenCollectedOneUserSelectedLocation_thenGameHasEnoughUserInputLoc( ) {
-        monkeyLadderGame = new MonkeyLadderGame( new Board( BoardSize.FourByFive ), GameLevel.LevelOne, PlayerLives.Default );
+        monkeyLadderGame = new MonkeyLadderGame( new Board( BoardSize.FourByFive ), GameLevel.LevelOne, PlayerLives.getDefaultStartingValue() );
 
         monkeyLadderGame.addUserSelectedLocation( Location.ZeroZero );
 
@@ -40,7 +40,7 @@ public class MonkeyLadderGameTest {
 
         Board board = new Board( BoardSize.FourByFive, Arrays.asList( cellToBeSelected ) );
 
-        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelOne, PlayerLives.Default );
+        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelOne, PlayerLives.getDefaultStartingValue() );
 
         monkeyLadderGame.addUserSelectedLocation( userSelectedLocation );
 
@@ -59,7 +59,7 @@ public class MonkeyLadderGameTest {
 
         Board board = new Board( BoardSize.FourByFive, Arrays.asList( cellToBeSelected ) );
 
-        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelOne, PlayerLives.Default );
+        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelOne, PlayerLives.getDefaultStartingValue() );
 
         monkeyLadderGame.addUserSelectedLocation( expectedLocation );
 
@@ -79,7 +79,7 @@ public class MonkeyLadderGameTest {
 
         Board board = new Board( BoardSize.FourByFive, Arrays.asList( cellToBeSelected_1, cellToBeSelected_2 ) );
 
-        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelTwo, PlayerLives.Default );
+        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelTwo, PlayerLives.getDefaultStartingValue() );
 
         // selection order is in reverse order
         monkeyLadderGame.addUserSelectedLocation( expectedLocation_2 );
@@ -101,7 +101,7 @@ public class MonkeyLadderGameTest {
 
         Board board = new Board( BoardSize.FourByFive, Arrays.asList( cellToBeSelected_1, cellToBeSelected_2 ) );
 
-        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelTwo, PlayerLives.Default );
+        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelTwo, PlayerLives.getDefaultStartingValue() );
 
         monkeyLadderGame.addUserSelectedLocation( expectedLocation_1 ); // order are
         monkeyLadderGame.addUserSelectedLocation( expectedLocation_2 );
@@ -134,7 +134,7 @@ public class MonkeyLadderGameTest {
                         cellToBeSelected_4,
                         cellToBeSelected_5 ) );
 
-        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelFive, PlayerLives.Default );
+        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelFive, PlayerLives.getDefaultStartingValue() );
 
         monkeyLadderGame.addUserSelectedLocation( expectedLocation_1 );
         monkeyLadderGame.addUserSelectedLocation( expectedLocation_2 );
@@ -170,7 +170,7 @@ public class MonkeyLadderGameTest {
 
         Board board = new Board( BoardSize.FourByFive, Arrays.asList( cellToBeSelected_1, cellToBeSelected_2 ) );
 
-        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelTwo, PlayerLives.Default );
+        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelTwo, PlayerLives.getDefaultStartingValue() );
 
         monkeyLadderGame.addUserSelectedLocation( expectedLocation_1 ); // order are
         monkeyLadderGame.addUserSelectedLocation( expectedLocation_2 );
@@ -206,7 +206,7 @@ public class MonkeyLadderGameTest {
 
         Board board = new Board( BoardSize.FourByFive, Arrays.asList( cellToBeSelected_1, cellToBeSelected_2 ) );
 
-        monkeyLadderGame = new MonkeyLadderGame( board, gameLevel, PlayerLives.Default );
+        monkeyLadderGame = new MonkeyLadderGame( board, gameLevel, PlayerLives.getDefaultStartingValue() );
 
         monkeyLadderGame.addUserSelectedLocation( expectedLocation_2 ); // wrong order are
         monkeyLadderGame.addUserSelectedLocation( expectedLocation_1 );

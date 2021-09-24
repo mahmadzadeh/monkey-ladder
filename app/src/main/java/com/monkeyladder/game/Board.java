@@ -59,8 +59,20 @@ public class Board {
             }
         }
 
+
         Collections.sort( nonEmptyCells, ( o1, o2 ) -> o1.getData().compareTo( o2.getData() ) );
 
+        assertAllCellAreInOrder( nonEmptyCells );
+
         return nonEmptyCells;
+    }
+
+    private void assertAllCellAreInOrder( List<Cell> nonEmptyCells ) {
+        for ( int index = 0; index < nonEmptyCells.size() - 1; index++ ) {
+            if ( nonEmptyCells.get( index ).getData().data + 1 != nonEmptyCells.get( index + 1 ).getData().data ) {
+                throw new IllegalStateException( "cell " + nonEmptyCells.get( index ) + " and cell " + nonEmptyCells.get( index + 1 ) + " " +
+                        " are not in order ... " );
+            }
+        }
     }
 }

@@ -43,7 +43,7 @@ public class BoardTest {
 
         Cell expectedZerZeroCell = new Cell( Location.ZeroZero, CellData.Eight );
         Cell expectedZeroOneCell = new Cell( Location.ZeroOne, CellData.Nine );
-        Cell expectedThreeFourCell = new Cell( Location.ThreeFour, CellData.Eleven );
+        Cell expectedThreeFourCell = new Cell( Location.ThreeFour, CellData.Ten );
 
         onCells = Arrays.asList( expectedZerZeroCell, expectedZeroOneCell, expectedThreeFourCell );
 
@@ -61,7 +61,7 @@ public class BoardTest {
 
         Cell expectedZerZeroCell = new Cell( Location.ZeroZero, CellData.Eight );
         Cell expectedZeroOneCell = new Cell( Location.ZeroOne, CellData.Nine );
-        Cell expectedThreeFourCell = new Cell( Location.ThreeFour, CellData.Eleven );
+        Cell expectedThreeFourCell = new Cell( Location.ThreeFour, CellData.Ten );
 
         onCells = Arrays.asList( expectedZerZeroCell, expectedZeroOneCell, expectedThreeFourCell );
 

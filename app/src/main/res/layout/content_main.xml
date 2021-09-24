@@ -307,203 +307,108 @@
         android:orientation="vertical"
         android:scrollbarAlwaysDrawHorizontalTrack="true">
 
-        <!-- Game name section -->
-        <LinearLayout
-            android:id="@+id/gameNameLayout"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/left_layout_top_right"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1.1"
-            android:background="#7EA0C9"
-            android:orientation="vertical">
+
+            android:background="@color/colorPrimary">
 
             <TextView
                 android:id="@+id/textViewGameName"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
-                android:layout_weight="1"
+                android:layout_width="137dp"
+                android:layout_height="43dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="55dp"
                 android:gravity="top|bottom|center"
                 android:text="@string/monkeyLadder"
                 android:textColor="#ffffff"
-                android:textSize="@dimen/monkeyLadderTextSize" />
-        </LinearLayout>
+                android:textSize="@dimen/monkeyLadderTextSize"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
-        <!--Various Game info section-->
-        <LinearLayout
-            android:id="@+id/gameInfoLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.2"
-            android:background="#607A9F"
-            android:orientation="vertical">
-
-            <!--User Input Section-->
-            <LinearLayout
-                android:id="@+id/userInputSectionLayout"
+            <ImageView
+                android:id="@+id/userSelectionResult"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#607A9F"
-                android:orientation="vertical">
+                android:layout_height="55dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="32dp"
+                android:gravity="center_horizontal"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewGameName" />
 
-                <ImageView
-                    android:id="@+id/userSelectionResult"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:gravity="center_horizontal"
-                    android:textColor="#FFFFFF"
-                    android:textSize="30sp" />
-            </LinearLayout>
-
-
-            <!-- User lives section-->
-            <LinearLayout
-                android:id="@+id/playerLivesLayout"
+            <!--user lives section-->
+            <ImageView
+                android:id="@+id/livesCircle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#607A9F"
-                android:orientation="vertical">
+                android:layout_height="74dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="32dp"
+                android:gravity="center_horizontal"
+                android:src="@drawable/round_circle_background"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userSelectionResult" />
 
-                <LinearLayout
-                    android:id="@+id/playerLivesMiddleLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#607A9F"
-                    android:orientation="vertical">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="0dp"
-                        android:layout_weight="1"
-                        android:background="#607A9F">
-
-                        <ImageView
-                            android:id="@+id/livesCircle"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/round_circle_background" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_alignBottom="@+id/livesCircle"
-                            android:orientation="vertical"
-                            android:paddingTop="18dp">
-
-                            <ImageView
-                                android:id="@+id/livesImage"
-                                android:layout_width="match_parent"
-                                android:layout_height="10dp"
-                                android:layout_centerInParent="true"
-                                android:src="@drawable/heart_healthy" />
-
-                            <TextView
-                                android:id="@+id/livesHeaderText"
-                                android:layout_width="match_parent"
-                                android:layout_height="15dp"
-                                android:fontFamily="monospace"
-                                android:gravity="bottom|center"
-                                android:text="@string/livesHeaderText"
-                                android:textColor="#B0C7E6"
-                                android:textSize="10sp" />
-
-                            <TextView
-                                android:id="@+id/livesLeftText"
-                                android:layout_width="match_parent"
-                                android:layout_height="40dp"
-                                android:fontFamily="monospace"
-                                android:gravity="top|center"
-                                android:text="@string/livesText"
-                                android:textColor="#FFFFFF"
-                                android:textSize="10sp" />
-                        </LinearLayout>
-                    </RelativeLayout>
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <!-- Score -->
-            <LinearLayout
-                android:id="@+id/playerScoreLayout"
+            <ImageView
+                android:id="@+id/livesImage"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#607A9F"
-                android:orientation="vertical">
+                android:layout_height="74dp"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/one_life"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userSelectionResult" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="0dp"
-                    android:layout_weight="1"
-                    android:background="#607A9F">
-
-                    <ImageView
-                        android:id="@+id/scoreCircleImage"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true"
-                        android:src="@drawable/round_circle_background" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_alignBottom="@+id/scoreCircleImage"
-                        android:layout_alignParentLeft="true"
-                        android:orientation="vertical"
-                        android:paddingTop="18dp">
-
-                        <TextView
-                            android:id="@+id/textViewScoreText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1.3"
-                            android:fontFamily="monospace"
-                            android:gravity="bottom|center"
-                            android:text="@string/scoreHeaderText"
-                            android:textColor="#B0C7E6"
-                            android:textSize="10sp" />
-
-                        <TextView
-                            android:id="@+id/score"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="2.9"
-                            android:gravity="top|center_horizontal"
-                            android:text="@string/zeroScore"
-                            android:textColor="#FFFFFF"
-                            android:textSize="10sp" />
-                    </LinearLayout>
-                </RelativeLayout>
-            </LinearLayout>
-
-            <!--count down -->
-            <LinearLayout
-                android:id="@+id/countDownLayout"
+            <ImageView
+                android:id="@+id/scoreCircleImage"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="#607A9F"
-                android:orientation="vertical">
+                android:layout_height="74dp"
+                android:src="@drawable/round_circle_background"
+                app:layout_constraintTop_toBottomOf="@+id/livesCircle" />
 
-                <androidx.core.widget.ContentLoadingProgressBar
-                    android:id="@+id/progressBar"
-                    style="?android:progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:progress="0"
-                    android:progressDrawable="@drawable/circle"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </LinearLayout>
-        </LinearLayout>
+            <TextView
+                android:id="@+id/textViewScoreText"
+                android:layout_width="match_parent"
+                android:layout_height="74dp"
+                android:layout_marginTop="33dp"
+                android:fontFamily="monospace"
+                android:gravity="top|center"
+                android:text="@string/scoreHeaderText"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/scoreCircleImage"
+                app:layout_constraintTop_toTopOf="@+id/scoreCircleImage" />
+
+            <TextView
+                android:id="@+id/score"
+                android:layout_width="match_parent"
+                android:layout_height="74dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/zeroScore"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/scoreCircleImage"
+                app:layout_constraintTop_toTopOf="@+id/scoreCircleImage" />
+
+            <androidx.core.widget.ContentLoadingProgressBar
+                android:id="@+id/progressBar"
+                style="?android:progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="74dp"
+
+                android:progress="0"
+                android:progressDrawable="@drawable/circle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/scoreCircleImage" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Game name section -->
     </LinearLayout>
 </LinearLayout>
