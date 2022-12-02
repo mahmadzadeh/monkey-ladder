@@ -7,13 +7,13 @@ public interface MainActivityPresenterContract {
 
     void startOneRound( );
 
-    void startDisplayTimer( );
+    void startDisplayTimer( int timerDurationInMillis, int oneTickInMillis );
 
     void onDisplayTimerFinish( );
 
     void setDisplayGameBoardProgress( int formatTime );
 
-    void collectSelectedLocation( Location location );
+    void addSelectedLocation( Location location );
 
     void endOneRound( );
 

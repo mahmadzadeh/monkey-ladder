@@ -16,7 +16,7 @@ public enum PlayerLives {
     Two( 2 ) {
         @Override
         public PlayerLifeStatus getHealth( ) {
-            return PlayerLifeStatus.WarningState;
+            return PlayerLifeStatus.Warning;
         }
     },
     Three( 3 ) {

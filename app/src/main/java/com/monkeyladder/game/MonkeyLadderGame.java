@@ -3,8 +3,9 @@ package com.monkeyladder.game;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.monkeyladder.game.UserInputEvaluationResult.Correct;
 import static com.monkeyladder.game.UserInputEvaluationResult.Incorrect;
-import static com.monkeyladder.game.util.random.RandomBoardGenerator.nextTrialForLevel;
+import static com.monkeyladder.util.random.RandomBoardGenerator.nextTrialForLevel;
 
 public class MonkeyLadderGame {
 
@@ -52,7 +53,7 @@ public class MonkeyLadderGame {
             }
         }
 
-        return UserInputEvaluationResult.Correct;
+        return Correct;
     }
 
     public GameState updateGameState( UserInputEvaluationResult result ) {

@@ -2,6 +2,7 @@ package com.monkeyladder.ui.mainscreen;
 
 import com.monkeyladder.game.GameState;
 import com.monkeyladder.game.PlayerLives;
+import com.monkeyladder.util.LocationData;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ interface MainActivityViewContract {
 
     void setReadyToTakeUserInput( boolean isReady );
 
-    void onGameEnd( );
+    void onGameEnd( GameState gameState );
 
     void updateLivesInUI( PlayerLives lives );
 }

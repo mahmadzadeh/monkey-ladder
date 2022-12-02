@@ -5,6 +5,7 @@ import com.monkeyladder.game.GameState;
 import com.monkeyladder.game.Location;
 import com.monkeyladder.game.MonkeyLadderGame;
 import com.monkeyladder.game.UserInputEvaluationResult;
+import com.monkeyladder.util.LocationData;
 
 import java.util.List;
 import java.util.stream.Collectors;

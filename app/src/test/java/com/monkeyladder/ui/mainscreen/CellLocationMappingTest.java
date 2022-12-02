@@ -3,11 +3,14 @@ package com.monkeyladder.ui.mainscreen;
 import com.monkeyladder.R;
 import com.monkeyladder.game.GameLevel;
 import com.monkeyladder.game.Location;
+import com.monkeyladder.util.CellLocationMapping;
 
 import org.junit.Test;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -15,7 +18,6 @@ import java.util.Set;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 
 public class CellLocationMappingTest {
 
@@ -69,7 +71,10 @@ public class CellLocationMappingTest {
 
         GameLevel level = GameLevel.Null;
 
-        assertEquals( 0, Location.getRandomLocationForLevel( level ).size());
+        List<Location> locations = Location.getRandomLocationForLevel( level );
+
+        assertEquals( 0, locations.size() );
+        assertNotNullLocation( locations );
     }
 
     @Test
@@ -77,7 +82,10 @@ public class CellLocationMappingTest {
 
         GameLevel level = GameLevel.LevelOne;
 
-        assertEquals( 1, Location.getRandomLocationForLevel( level ).size());
+        List<Location> locations = Location.getRandomLocationForLevel( level );
+
+        assertEquals( 1, locations.size() );
+        assertNotNullLocation( locations );
     }
 
     @Test
@@ -85,7 +93,10 @@ public class CellLocationMappingTest {
 
         GameLevel level = GameLevel.LevelTen;
 
-        assertEquals( 10, Location.getRandomLocationForLevel( level ).size());
+        List<Location> locations = Location.getRandomLocationForLevel( level );
+
+        assertEquals( 10, locations.size() );
+        assertNotNullLocation( locations );
     }
 
     @Test
@@ -93,19 +104,25 @@ public class CellLocationMappingTest {
 
         GameLevel level = GameLevel.LevelTen;
 
-        Set<Location> randomLocationForLevel = new HashSet<>(Location.getRandomLocationForLevel( level ));
+        Set<Location> randomLocationForLevel = new HashSet<>( Location.getRandomLocationForLevel( level ) );
 
-        assertEquals( 10, randomLocationForLevel.size());
+        assertEquals( 10, randomLocationForLevel.size() );
+        assertNotNullLocation( randomLocationForLevel );
     }
 
     @Test
-    public void givenLevelTen_thenGetRandomLocationForLevelDoesNotReturnNullLocation() {
+    public void givenLevelTen_thenGetRandomLocationForLevelDoesNotReturnNullLocation( ) {
 
         GameLevel level = GameLevel.LevelTen;
 
-        Set<Location> randomLocationForLevel = new HashSet<>(Location.getRandomLocationForLevel( level ));
+        Set<Location> randomLocationForLevel = new HashSet<>( Location.getRandomLocationForLevel( level ) );
 
-        assertFalse( randomLocationForLevel.contains( Location.NonExistentLocation ));
+        assertFalse( randomLocationForLevel.contains( Location.NonExistentLocation ) );
     }
 
+    private void assertNotNullLocation( Collection<Location> locations ) {
+        for ( Location loc : locations ) {
+            assertNotEquals( loc, Location.NonExistentLocation );
+        }
+    }
 }

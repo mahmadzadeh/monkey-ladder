@@ -3,20 +3,21 @@ package com.monkeyladder.ui.mainscreen;
 import com.monkeyladder.game.GameState;
 import com.monkeyladder.game.Location;
 import com.monkeyladder.game.UserInputEvaluationResult;
+import com.monkeyladder.util.CountDownTimerParameter;
+import com.monkeyladder.util.GameCountDownTimer;
+import com.monkeyladder.util.LevelBasedTimerParameter;
 
 class MainActivityPresenter implements MainActivityPresenterContract {
 
     private final MainActivityViewContract view;
     private final MainActivityModelContract model;
     private final GameCountDownTimer timer;
+    private final LevelBasedTimerParameter timerParam = new LevelBasedTimerParameter();
 
-    public MainActivityPresenter( MainActivityViewContract viewContract, MainActivityModelContract model,
-                                  CountDownTimerParameter countDownTimerParam ) {
+    public MainActivityPresenter( MainActivityViewContract viewContract, MainActivityModelContract model ) {
         this.view = viewContract;
         this.model = model;
-        this.timer = GameCountDownTimer.INSTANCE( this,
-                countDownTimerParam.getTimerDurationInMillis(),
-                countDownTimerParam.getOneTickInMillis() );
+        this.timer = GameCountDownTimer.INSTANCE( this );
     }
 
     @Override
@@ -25,15 +26,18 @@ class MainActivityPresenter implements MainActivityPresenterContract {
 
         view.displayBoard( model.getCellsThatAreSet() );
 
-        startDisplayTimer();
+        CountDownTimerParameter parameters = timerParam.getTimerParametersForLevel(
+                model.getCurrentGameState().getLevel(), 800, 500 );
+
+        startDisplayTimer( parameters.getTimerDurationInMillis(), parameters.getOneTickInMillis() );
     }
 
-    public void startDisplayTimer( ) {
-        timer.start();
+    public void startDisplayTimer( int timerDurationInMillis, int oneTickInMillis ) {
+        timer.start( timerDurationInMillis, oneTickInMillis );
     }
 
     @Override
-    public void collectSelectedLocation( Location location ) {
+    public void addSelectedLocation( Location location ) {
         model.addSelectedLocation( location );
 
         if ( model.hasCollectedEnoughUserInput() ) {
@@ -72,7 +76,7 @@ class MainActivityPresenter implements MainActivityPresenterContract {
         }
 
         if ( model.isEndGame( result ) ) {
-            view.onGameEnd();
+            view.onGameEnd( gameState );
         } else {
             startOneRound();
         }
@@ -82,4 +86,5 @@ class MainActivityPresenter implements MainActivityPresenterContract {
     public GameState getCurrentGameState( ) {
         return model.getCurrentGameState();
     }
+
 }

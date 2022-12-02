@@ -1,5 +1,7 @@
 package com.monkeyladder.game;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -70,8 +72,18 @@ public class Board {
     private void assertAllCellAreInOrder( List<Cell> nonEmptyCells ) {
         for ( int index = 0; index < nonEmptyCells.size() - 1; index++ ) {
             if ( nonEmptyCells.get( index ).getData().data + 1 != nonEmptyCells.get( index + 1 ).getData().data ) {
+                dumpGrid(); // something funky happening
                 throw new IllegalStateException( "cell " + nonEmptyCells.get( index ) + " and cell " + nonEmptyCells.get( index + 1 ) + " " +
                         " are not in order ... " );
+            }
+        }
+    }
+
+    private void dumpGrid( ) {
+        for ( int row = 0; row < size.rowCount(); row++ ) {
+            for ( int col = 0; col < size.colCount(); col++ ) {
+                Cell cell = grid.get( row ).get( col );
+                Log.e( "Board", "CELL " + cell );
             }
         }
     }

@@ -1,6 +1,8 @@
 package com.monkeyladder.ui.mainscreen;
 
 import com.monkeyladder.game.Board;
+import com.monkeyladder.util.CountDownTimerParameter;
+import com.monkeyladder.util.LocationData;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +38,7 @@ public class MainActivityPresenterTest {
     public void setUp( ) {
         countDownTimerParam = CountDownTimerParameter.of( 10, 1 );
 
-        sut = new MainActivityPresenter( mockView, mockModel, countDownTimerParam );
+        sut = new MainActivityPresenter( mockView, mockModel );
     }
 
 

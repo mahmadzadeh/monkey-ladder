@@ -1,40 +1,39 @@
 package com.monkeyladder.game;
 
-import com.monkeyladder.game.util.IntegerRange;
+import com.monkeyladder.util.IntegerRange;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.monkeyladder.game.util.random.RandomNumberGenerator.next_N_DistinctRandomIntsWithinRangeInRandomOrder;
+import static com.monkeyladder.util.random.RandomNumberGenerator.next_N_DistinctRandomIntsWithinRangeInRandomOrder;
 
 public enum Location {
     ZeroZero( 0, 0 ),
     ZeroOne( 0, 1 ),
     ZeroTwo( 0, 2 ),
     ZeroThree( 0, 3 ),
-    ZeroFour( 0, 3 ),
+    ZeroFour( 0, 4 ),
+
     OneZero( 1, 0 ),
     OneOne( 1, 1 ),
     OneTwo( 1, 2 ),
     OneThree( 1, 3 ),
     OneFour( 1, 4 ),
+
     TwoZero( 2, 0 ),
     TwoOne( 2, 1 ),
     TwoTwo( 2, 2 ),
     TwoThree( 2, 3 ),
     TwoFour( 2, 4 ),
+
     ThreeZero( 3, 0 ),
     ThreeOne( 3, 1 ),
     ThreeTwo( 3, 2 ),
     ThreeThree( 3, 3 ),
     ThreeFour( 3, 4 ),
-    //    FourZero(4,0),
-//    FourOne(4,1),
-//    FourTwo(4,2),
-//    FourThree(4,3),
-//    FourFour(4,4),
+
     NonExistentLocation( -1, -1 );
 
 
@@ -61,7 +60,8 @@ public enum Location {
 
         locationList.remove( NonExistentLocation );
 
-        return next_N_DistinctRandomIntsWithinRangeInRandomOrder( level.cellCount(), IntegerRange.instanceWithinCollectionSize( locationList ) )
+        return next_N_DistinctRandomIntsWithinRangeInRandomOrder( level.cellCount(),
+                IntegerRange.instanceWithinCollectionSize( locationList ) )
                 .stream()
                 .map( index -> locationList.get( index ) )
                 .collect( Collectors.toList() );
@@ -73,7 +73,7 @@ public enum Location {
                 return location;
             }
         }
-        return NonExistentLocation;
+        throw new IllegalStateException( "Unable to create location of row=" + row + " and col=" + col );
     }
 
     public int getRow( ) {

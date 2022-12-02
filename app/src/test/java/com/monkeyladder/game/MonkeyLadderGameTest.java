@@ -1,8 +1,11 @@
 package com.monkeyladder.game;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -10,11 +13,18 @@ import static org.junit.Assert.assertTrue;
 
 public class MonkeyLadderGameTest {
 
-    Location expectedLocation_1 = Location.ZeroZero;
-    Location expectedLocation_2 = Location.ZeroOne;
-    Cell cellToBeSelected_1 = new Cell( expectedLocation_1, CellData.One );
-    Cell cellToBeSelected_2 = new Cell( expectedLocation_2, CellData.Two );
+    private Location expectedLocation_1 = Location.ZeroZero;
+    private Location expectedLocation_2 = Location.ZeroOne;
+    private Cell cellToBeSelected_1 = new Cell( expectedLocation_1, CellData.One );
+    private Cell cellToBeSelected_2 = new Cell( expectedLocation_2, CellData.Two );
     private MonkeyLadderGame monkeyLadderGame;
+
+    private MonkeyLadderGameTestDataProvider testDataProvider;
+
+    @Before
+    public void setUp( ) {
+        testDataProvider = new MonkeyLadderGameTestDataProvider();
+    }
 
     @Test
     public void constructor( ) {
@@ -31,59 +41,19 @@ public class MonkeyLadderGameTest {
     }
 
     @Test
-    public void givenLevelOne_whenUserSelectsInvalidCell_thenEvaluateReturnsIncorrect( ) {
-
-        Location expectedLocation = Location.ZeroZero;
-        Location userSelectedLocation = Location.ZeroThree;
-
-        Cell cellToBeSelected = new Cell( expectedLocation, CellData.One );
-
-        Board board = new Board( BoardSize.FourByFive, Arrays.asList( cellToBeSelected ) );
-
-        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelOne, PlayerLives.getDefaultStartingValue() );
-
-        monkeyLadderGame.addUserSelectedLocation( userSelectedLocation );
-
-        assertTrue( monkeyLadderGame.hasEnoughUserSelectedInput() );
-
-        assertEquals( UserInputEvaluationResult.Incorrect, monkeyLadderGame.evaluate() );
-    }
-
-
-    @Test
-    public void givenLevelOne_whenUserSelectsValidCell_thenEvaluateReturnsCorrect( ) {
-
-        Location expectedLocation = Location.ZeroZero;
-
-        Cell cellToBeSelected = new Cell( expectedLocation, CellData.One );
-
-        Board board = new Board( BoardSize.FourByFive, Arrays.asList( cellToBeSelected ) );
-
-        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelOne, PlayerLives.getDefaultStartingValue() );
-
-        monkeyLadderGame.addUserSelectedLocation( expectedLocation );
-
-        assertTrue( monkeyLadderGame.hasEnoughUserSelectedInput() );
-
-        assertEquals( UserInputEvaluationResult.Correct, monkeyLadderGame.evaluate() );
-    }
-
-    @Test
     public void givenLevelTwo_whenUserSelectsCellIncorrectOrder_thenEvaluateReturnsIncorrect( ) {
 
-        Location expectedLocation_1 = Location.ZeroZero;
-        Location expectedLocation_2 = Location.ZeroOne;
+        List<MonkeyLadderGameTestDataProvider.TestBoardLocationData> testData =
+                testDataProvider.levelTwoTestBoardData();
 
-        Cell cellToBeSelected_1 = new Cell( expectedLocation_1, CellData.One );
-        Cell cellToBeSelected_2 = new Cell( expectedLocation_2, CellData.Two );
-
-        Board board = new Board( BoardSize.FourByFive, Arrays.asList( cellToBeSelected_1, cellToBeSelected_2 ) );
+        Board board = constructBoardWithLocations( BoardSize.FourByFive, testData );
 
         monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelTwo, PlayerLives.getDefaultStartingValue() );
 
-        // selection order is in reverse order
-        monkeyLadderGame.addUserSelectedLocation( expectedLocation_2 );
-        monkeyLadderGame.addUserSelectedLocation( expectedLocation_1 );
+        List<Location> incorrectUserInput = swapTwoRandomLocations(
+                testData.stream().map( d -> d.getLocation() ).collect( Collectors.toList() ) );
+
+        simulateUserInput( monkeyLadderGame, incorrectUserInput );
 
         assertTrue( monkeyLadderGame.hasEnoughUserSelectedInput() );
 
@@ -114,46 +84,35 @@ public class MonkeyLadderGameTest {
     @Test
     public void givenLevelFive_whenUserSelectsCellIncorrectOrder_thenEvaluateReturnsIncorrect( ) {
 
-        Location expectedLocation_1 = Location.ZeroZero;
-        Location expectedLocation_2 = Location.ZeroOne;
-        Location expectedLocation_3 = Location.ThreeZero;
-        Location expectedLocation_4 = Location.TwoOne;
-        Location expectedLocation_5 = Location.OneFour;
+        List<MonkeyLadderGameTestDataProvider.TestBoardLocationData> testData =
+                testDataProvider.levelFourTestBoardData();
 
-        Cell cellToBeSelected_1 = new Cell( expectedLocation_1, CellData.One );
-        Cell cellToBeSelected_2 = new Cell( expectedLocation_2, CellData.Two );
-        Cell cellToBeSelected_3 = new Cell( expectedLocation_3, CellData.Three );
-        Cell cellToBeSelected_4 = new Cell( expectedLocation_4, CellData.Four );
-        Cell cellToBeSelected_5 = new Cell( expectedLocation_5, CellData.Five );
-
-        Board board = new Board( BoardSize.FourByFive,
-                Arrays.asList(
-                        cellToBeSelected_1,
-                        cellToBeSelected_2,
-                        cellToBeSelected_3,
-                        cellToBeSelected_4,
-                        cellToBeSelected_5 ) );
+        Board board = constructBoardWithLocations( BoardSize.FourByFive, testData );
 
         monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelFive, PlayerLives.getDefaultStartingValue() );
 
-        monkeyLadderGame.addUserSelectedLocation( expectedLocation_1 );
-        monkeyLadderGame.addUserSelectedLocation( expectedLocation_2 );
-        monkeyLadderGame.addUserSelectedLocation( expectedLocation_3 );
-        monkeyLadderGame.addUserSelectedLocation( expectedLocation_5 ); // selected location 5 before 4
-        monkeyLadderGame.addUserSelectedLocation( expectedLocation_4 );
+        List<Location> incorrectUserInput = swapTwoRandomLocations(
+                testData.stream().map( d -> d.getLocation() ).collect( Collectors.toList() ) );
+
+        simulateUserInput( monkeyLadderGame, incorrectUserInput );
 
         assertTrue( monkeyLadderGame.hasEnoughUserSelectedInput() );
 
         assertEquals( UserInputEvaluationResult.Incorrect, monkeyLadderGame.evaluate() );
+    }
 
-        //Reset and test with correct order of selection
-        monkeyLadderGame.resetUserSelectedLocations();
+    @Test
+    public void givenLevelFive_whenUserSelectsCellCorrectOrder_thenEvaluateReturnsCorrect( ) {
 
-        monkeyLadderGame.addUserSelectedLocation( expectedLocation_1 );
-        monkeyLadderGame.addUserSelectedLocation( expectedLocation_2 );
-        monkeyLadderGame.addUserSelectedLocation( expectedLocation_3 );
-        monkeyLadderGame.addUserSelectedLocation( expectedLocation_4 );
-        monkeyLadderGame.addUserSelectedLocation( expectedLocation_5 );
+        List<MonkeyLadderGameTestDataProvider.TestBoardLocationData> data = testDataProvider.levelFourTestBoardData();
+
+        Board board = constructBoardWithLocations( BoardSize.FourByFive, data );
+
+        monkeyLadderGame = new MonkeyLadderGame( board, GameLevel.LevelFive, PlayerLives.getDefaultStartingValue() );
+
+        List<Location> correctUserInput = data.stream().map( d -> d.getLocation() ).collect( Collectors.toList() );
+
+        simulateUserInput( monkeyLadderGame, correctUserInput );
 
         assertTrue( monkeyLadderGame.hasEnoughUserSelectedInput() );
 
@@ -225,6 +184,28 @@ public class MonkeyLadderGameTest {
         UserInputEvaluationResult result = monkeyLadderGame.evaluate();
 
         return new OneRoundResult( monkeyLadderGame.updateGameState( result ), result );
+    }
+
+    private List<Location> swapTwoRandomLocations( List<Location> collect ) {
+        assert ( collect.size() >= 2 );
+
+        Location loc = collect.get( 0 );
+        collect.set( 0, collect.get( collect.size() - 1 ) );
+        collect.set( collect.size() - 1, loc );
+
+        return collect;
+    }
+
+    private void simulateUserInput( final MonkeyLadderGame game, final List<Location> userEnteredLocations ) {
+        userEnteredLocations.stream().forEach( location -> game.addUserSelectedLocation( location ) );
+    }
+
+    private Board constructBoardWithLocations( BoardSize size, List<MonkeyLadderGameTestDataProvider.TestBoardLocationData> data ) {
+
+        return new Board( size,
+                data.stream()
+                        .map( testData -> new Cell( testData.getLocation(), testData.getData() ) )
+                        .collect( Collectors.toList() ) );
     }
 
     private class OneRoundResult {
